@@ -53,7 +53,8 @@ void serial_init() {
 void pio_usb_host_config(device_t *state) {
     /* tuh_configure() must be called before tuh_init() */
     static pio_usb_configuration_t config = PIO_USB_DEFAULT_CONFIG;
-    config.pin_dp                         = PIO_USB_DP_PIN_DEFAULT;
+    config.pin_dp                         = 15;
+    config.pinout                         = PIO_USB_PINOUT_DMDP;
 
     /* Board B is always report mode, board A is default-boot if configured */
     if (state->board_role == OUTPUT_B || ENFORCE_KEYBOARD_BOOT_PROTOCOL == 0)
@@ -81,33 +82,16 @@ void pio_usb_host_config(device_t *state) {
       so IC is not connected on BOARD_A_RX, and we're BOARD B
 */
 int board_autoprobe(void) {
-    const bool probing_sequence[] = {true, false, false, true, true, false, true, false};
-    const int seq_len = ARRAY_SIZE(probing_sequence);
-
     /* Set the pin as INPUT and initialize it */
-    gpio_init(BOARD_A_RX);
-    gpio_set_dir(BOARD_A_RX, GPIO_IN);
-
-    for (int i=0; i<seq_len; i++) {
-        if (probing_sequence[i])
-            gpio_pull_up(BOARD_A_RX);
-        else
-            gpio_pull_down(BOARD_A_RX);
-
-        /* Wait for value to settle */
-        sleep_ms(3);
-
-        /* Read the value */
-        bool value = gpio_get(BOARD_A_RX);
-        gpio_disable_pulls(BOARD_A_RX);
-
-        /* If values mismatch at any point, means IC is connected and we're board A */
-        if (probing_sequence[i] != value)
-            return OUTPUT_A;
-    }
-
-    /* If it was just reading the pull up/down in all cases, pin is floating and we're board B */
-    return OUTPUT_B;
+    gpio_init(2);
+    gpio_set_dir(2, GPIO_IN);
+    gpio_pull_up(2);
+    /* Wait for value to settle */
+    sleep_ms(3);
+    /* Read the value */
+    bool value = gpio_get(2);
+    gpio_disable_pulls(2);
+    return value;
 }
 
 
