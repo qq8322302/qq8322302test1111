@@ -53,8 +53,13 @@ cmake --build build
 
 ### 硬件制作
 
-PCB主板板厚1.6mm，两侧挡板板厚1mm。黑色阻焊，沉金或喷锡都可以。
+#### 主板参数
+PCB主板板厚1.6mm，黑色阻焊，沉金或喷锡都可以。
 
-PCB焊接辅助工具及BOM表，参考工程下 [hardware/InteractiveBOM_deskhopboxV2_2024-12-7.html](https://github.com/qq8322302/qq8322302test1111/releases) (*请下载到本地后使用Chrome浏览器打开*)
+PCB焊接辅助工具及BOM表，参考工程下 [hardware/InteractiveBOM_deskhopboxV2_2024-12-7.html](https://github.com/qq8322302/qq8322302test1111/blob/main/hardware/InteractiveBOM_deskhopboxV2_2024-12-7.html) (*请下载到本地后使用Chrome浏览器打开*)
 
-螺丝使用M2圆头螺丝。
+#### 挡板参数
+两侧挡板，板厚1mm，黑色阻焊，沉金或喷锡都可以。
+
+#### 螺丝参数
+螺丝使用M2*5圆头螺丝，黑色。
